@@ -14,23 +14,25 @@
 
     $data = json_decode($html);
 
+    // print_r($data->entry_data->ProfilePage[0]->user->media->nodes);
+
     $rss_feed = '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel>';
     $rss_feed .= '<title>'.$_GET['user'].'\'s Instagram Feed</title><atom:link href="http://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"].'" rel="self" type="application/rss+xml" /><link>http://instagram.com/'.$_GET['user'].'</link><description>'.$_GET['user'].'\'s Instagram Feed</description>';
 
-    foreach($data->entry_data->UserProfile[0]->userMedia as $user_media) {
+    foreach($data->entry_data->ProfilePage[0]->user->media->nodes as $node) {
 
         $rss_feed .= '<item><title>';
 
-        if(isset($user_media->caption->text) && $user_media->caption->text != '') {
-            $rss_feed .= htmlspecialchars($user_media->caption->text, ENT_QUOTES, ENT_HTML5);
+        if(isset($node->caption) && $node->caption != '') {
+            $rss_feed .= htmlspecialchars($node->caption, ENT_QUOTES, ENT_HTML5);
         } else {
             $rss_feed .= 'photo';
         }
 
         // pubdate format could also be: "D, d M Y H:i:s T"
-        $rss_feed .= '</title><link>'.$user_media->link.'</link><pubDate>'.date("r", $user_media->created_time).'</pubDate><dc:creator><![CDATA[ '.$_GET['user'].' ]]></dc:creator><description><![CDATA[<img src="'.$user_media->images->standard_resolution->url.'" />]]></description><guid>'.$user_media->link.'</guid></item>';
+        $rss_feed .= '</title><link>https://instagram.com/'.$node->code.'/</link><pubDate>'.date("r", $node->date).'</pubDate><dc:creator><![CDATA['.$_GET['user'].']]></dc:creator><description><![CDATA[<img src="'.$node->display_src.'" />]]></description><guid>https://instagram.com/p/'.$node->code.'/</guid></item>';
 
-    } // foreach userMedia (photo)
+    } // foreach "node" (photo)
 
     $rss_feed .= '</channel></rss>';
 
