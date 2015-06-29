@@ -30,7 +30,7 @@
         }
 
         // pubdate format could also be: "D, d M Y H:i:s T"
-        $rss_feed .= '</title><link>https://instagram.com/'.$node->code.'/</link><pubDate>'.date("r", $node->date).'</pubDate><dc:creator><![CDATA['.$_GET['user'].']]></dc:creator><description><![CDATA[<img src="'.$node->display_src.'" />]]></description><guid>https://instagram.com/p/'.$node->code.'/</guid></item>';
+        $rss_feed .= '</title><link>https://instagram.com/p/'.$node->code.'/</link><pubDate>'.date("r", $node->date).'</pubDate><dc:creator><![CDATA['.$_GET['user'].']]></dc:creator><description><![CDATA[<img src="'.$node->display_src.'" />]]></description><guid>https://instagram.com/p/'.$node->code.'/</guid></item>';
 
     } // foreach "node" (photo)
 
