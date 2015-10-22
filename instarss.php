@@ -7,10 +7,11 @@
     header('Content-Type: text/xml; charset=utf-8');
 
     $html = file_get_contents('http://instagram.com/'.$_GET['user'].'/');
-    $html = strstr($html, '{"static_root');
+    $html = strstr($html, '{"qs');
     $html = strstr($html, '</script>', true);
-    //$html = substr($html,0,-6);
     $html = substr($html, 0, -1);
+
+    // echo $html;
 
     $data = json_decode($html);
 
