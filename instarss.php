@@ -7,10 +7,11 @@
     header('Content-Type: text/xml; charset=utf-8');
 
     $html = file_get_contents('http://instagram.com/'.$_GET['user'].'/');
-    $html = strstr($html, '{"qs');
+    $html = strstr($html, '{"country_code');
     $html = strstr($html, '</script>', true);
     $html = substr($html, 0, -1);
 
+    // for debugging... sigh........
     // echo $html;
 
     $data = json_decode($html);
@@ -25,7 +26,7 @@
         $rss_feed .= '<item><title>';
 
         if(isset($node->caption) && $node->caption != '') {
-            $rss_feed .= htmlspecialchars($node->caption, ENT_QUOTES, ENT_HTML5);
+            $rss_feed .= htmlspecialchars($node->caption, ENT_QUOTES);
         } else {
             $rss_feed .= 'photo';
         }
