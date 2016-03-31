@@ -32,7 +32,7 @@
         if ($data->entry_data->ProfilePage[0]->user->media->nodes) {
             $nodes = $data->entry_data->ProfilePage[0]->user->media->nodes;
         } else {
-            exit('Looks like this Instagram account is set to private. We can\'t do much about that now, can we?');
+            exit('Looks like this Instagram account is set to private or doesn\'t exist. We can\'t do much about that now, can we?');
         }
     }
     if (isset($_GET['hashtag'])) {
