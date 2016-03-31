@@ -10,8 +10,6 @@
         exit('Don\'t request both user and hashtag. Request one or the other.');
     }
 
-    header('Content-Type: text/xml; charset=utf-8');
-
     if (isset($_GET['user'])) {
         $html = file_get_contents('http://instagram.com/'.$_GET['user'].'/');
     }
@@ -31,11 +29,17 @@
     // print_r($data->entry_data->ProfilePage[0]->user->media->nodes);
 
     if (isset($_GET['user'])) {
-        $nodes = $data->entry_data->ProfilePage[0]->user->media->nodes;
+        if ($data->entry_data->ProfilePage[0]->user->media->nodes) {
+            $nodes = $data->entry_data->ProfilePage[0]->user->media->nodes;
+        } else {
+            exit('Looks like this Instagram account is set to private. We can\'t do much about that now, can we?');
+        }
     }
     if (isset($_GET['hashtag'])) {
         $nodes = $data->entry_data->TagPage[0]->tag->media->nodes;
     }
+
+    header('Content-Type: text/xml; charset=utf-8');
 
     $rss_feed = '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel>';
 
